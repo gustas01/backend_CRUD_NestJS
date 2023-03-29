@@ -10,7 +10,7 @@ export class UsersService {
 
   async create(user: CreateUserDto) {
     try {
-      return await this.prismaService.user.create({ data: user });
+      return this.prismaService.user.create({ data: user });
     } catch (e) {
       return { error: 'Email já cadastrado' };
     }
