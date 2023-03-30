@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsEnum,
   IsInt,
   IsOptional,
   IsString,
@@ -7,6 +8,7 @@ import {
   // eslint-disable-next-line prettier/prettier
   Min
 } from 'class-validator';
+import { Role } from 'src/enums/role.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -28,4 +30,8 @@ export class CreateUserDto {
     minSymbols: 0
   })
   password: string;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role: number;
 }
