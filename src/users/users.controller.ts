@@ -20,25 +20,25 @@ import { UpdatePatchUserDto } from './dto/update-patch-user-dto';
 import { UpdatePutUserDto } from './dto/update-put-user-dto';
 import { UsersService } from './users.service';
 
+@Roles(Role.Admin)
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin, Role.User)
+  @Roles(Role.User)
   @Get()
   async index() {
     return this.userService.index();
   }
 
-  @Roles(Role.Admin)
   @Post()
   async create(@Body() body: CreateUserDto) {
     return this.userService.create(body);
   }
 
-  //usando decorator personalizado
-  @Roles(Role.Admin)
+  //usando decorator personalizado ParamId
   @Get(':id')
   async read(@ParamId() id: number) {
     console.log(id);
@@ -46,7 +46,6 @@ export class UsersController {
     return this.userService.read(id);
   }
 
-  @Roles(Role.Admin)
   @Put(':id')
   async update(
     @Body() body: UpdatePutUserDto,
@@ -55,7 +54,6 @@ export class UsersController {
     return this.userService.updatePut(id, body);
   }
 
-  @Roles(Role.Admin)
   @Patch(':id')
   async updateWithPatch(
     @Body() body: UpdatePatchUserDto,
