@@ -10,6 +10,7 @@ import {
   Put,
   UseGuards
 } from '@nestjs/common/decorators';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import { ParamId } from 'src/decorators/param-id/param-id.decorator';
 import { Roles } from 'src/decorators/role/role.decorator';
 import { Role } from 'src/enums/role.enum';
@@ -27,12 +28,13 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   // @Roles(Role.Admin, Role.User)
-  @Roles(Role.User)
+  @SkipThrottle() //ignorando o Throttle para essa rota, ou seja, posso acesar quantas vezes quiser
   @Get()
   async index() {
     return this.userService.index();
   }
 
+  @Throttle(5, 60) //substituindo as confiruações de acesso/por que está no appModule para essa rota
   @Post()
   async create(@Body() body: CreateUserDto) {
     return this.userService.create(body);
