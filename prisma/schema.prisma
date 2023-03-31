@@ -16,7 +16,7 @@ model User {
   name String @db.VarChar(60)
   age Int? @db.Integer
   email String @unique
-  password String @db.VarChar(55)
+  password String @db.VarChar()
   role Int @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

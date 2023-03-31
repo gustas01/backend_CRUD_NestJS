@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import * as bcryptjs from 'bcryptjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -52,6 +53,9 @@ export class AuthService {
     const user = await this.prismaService.user.findUnique({ where: { email } });
 
     if (!user) throw new UnauthorizedException('Email ou senha inválidos');
+
+    if (!(await bcryptjs.compare(password, user.password)))
+      throw new UnauthorizedException('Email ou senha inválidos');
 
     return this.createToken(user);
   }

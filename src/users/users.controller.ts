@@ -41,8 +41,6 @@ export class UsersController {
   //usando decorator personalizado ParamId
   @Get(':id')
   async read(@ParamId() id: number) {
-    console.log(id);
-
     return this.userService.read(id);
   }
 
