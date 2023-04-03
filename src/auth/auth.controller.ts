@@ -5,8 +5,12 @@ import {
   Post,
   UseInterceptors
 } from '@nestjs/common';
-import { UploadedFile, UseGuards } from '@nestjs/common/decorators';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  UploadedFile,
+  UploadedFiles,
+  UseGuards
+} from '@nestjs/common/decorators';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
 import { User } from 'src/decorators/user/user.decorator';
 import { FileService } from 'src/file/file.service';
@@ -72,4 +76,27 @@ export class AuthController {
 
     return { success: true };
   }
+
+  @UseInterceptors(FilesInterceptor('files'))
+  @UseGuards(AuthGuard)
+  @Post('photo')
+  async uploadFiles(
+    @User() user, @UploadedFiles() files: Express.Multer.File[]) {
+      return files
+    }
+
+
+  @UseInterceptors(FileFieldsInterceptor([{
+    name: 'photo',
+    maxCount: 1,
+  }, {
+    name: 'documents',
+    maxCount: 10
+  }]))
+  @UseGuards(AuthGuard)
+  @Post('files-fields')
+  async uploadFilesFields(
+    @User() user, @UploadedFiles() files: {photo: Express.Multer.File, documents: Express.Multer.File[]}) {
+      return { files }
+    }
 }
