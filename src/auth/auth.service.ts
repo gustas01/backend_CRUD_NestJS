@@ -1,3 +1,4 @@
+import { MailerService } from '@nestjs-modules/mailer/dist';
 import {
   BadRequestException,
   Injectable,
@@ -18,7 +19,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private prismaService: PrismaService,
-    private userService: UsersService
+    private userService: UsersService,
+    private mailerService: MailerService
   ) {}
 
   createToken(user: User) {
@@ -62,24 +64,42 @@ export class AuthService {
 
   async forget(email: string) {
     const user = await this.prismaService.user.findUnique({ where: { email } });
-    if (!user) throw new UnauthorizedException('Email inválidos');
-    //enviar email para fazer a restauração da senha
+    if (!user) throw new UnauthorizedException('Email inválido');
+
+    const token = this.jwtService.sign({
+      id: user.id
+    }, {
+      expiresIn: '30 minutes',
+      subject: String(user.id),
+      issuer: 'forget',
+      audience: 'users'
+    })
+
+    await this.mailerService.sendMail({
+      subject: "Recuperação de senha",
+      to: 'gustavoG@email.com',
+      template: 'forget',
+      context: {name: user.name, token}
+    })
+
     return true;
   }
 
   async reset(newPassword: string, token: string) {
-    const id = 0;
+    try {
+      const { id } = this.jwtService.verify(token, {
+        issuer: this.issuer,
+        audience: this.audience
+      });
 
-    const user = await this.prismaService.user.update({
-      where: {
-        id
-      },
-      data: {
-        password: newPassword
-      }
-    });
-
-    return this.createToken(user);
+      newPassword = await bcryptjs.hash(newPassword, await bcryptjs.genSalt());
+  
+      const user = await this.prismaService.user.update({ where: { id }, data: { password: newPassword }});
+  
+      return this.createToken(user);
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 
   async register(data: AuthRegisterDto) {
