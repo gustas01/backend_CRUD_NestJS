@@ -20,7 +20,7 @@ export class RoleGuard implements CanActivate {
       (role: number) => role <= user.role
     );
 
-    console.log({ requiredRoles, user });
+    // console.log({ requiredRoles, user });
     return rolesFiltered;
   }
 }
