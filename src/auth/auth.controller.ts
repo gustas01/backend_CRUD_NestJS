@@ -87,7 +87,7 @@ export class AuthController {
 
   @UseInterceptors(FilesInterceptor('files'))
   @UseGuards(AuthGuard)
-  @Post('photo')
+  @Post('files')
   async uploadFiles(
     @User() user, @UploadedFiles() files: Express.Multer.File[]) {
       return files
