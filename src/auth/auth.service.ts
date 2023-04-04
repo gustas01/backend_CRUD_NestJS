@@ -7,7 +7,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as bcryptjs from 'bcryptjs';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 
@@ -18,7 +17,6 @@ export class AuthService {
 
   constructor(
     private readonly jwtService: JwtService,
-    private prismaService: PrismaService,
     private userService: UsersService,
     private mailerService: MailerService
   ) {}

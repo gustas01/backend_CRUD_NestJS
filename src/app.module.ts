@@ -3,18 +3,18 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { UserEntity } from './users/entity/user.entity';
 import { UsersModule } from './users/users.module';
 
 
 @Module({
   imports: [
     UsersModule,
-    PrismaModule,
     AuthModule,
     ThrottlerModule.forRoot({
       ttl: 60,
@@ -41,6 +41,16 @@ import { UsersModule } from './users/users.module';
         },
       },
     }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.testeNest,
+      entities: [UserEntity],
+      synchronize: process.env.ENV === "development",
+    })
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }]
