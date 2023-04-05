@@ -1,7 +1,7 @@
 import { Role } from 'src/enums/role.enum';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity({name: 'User', schema: 'public'})
+@Entity({name: 'users', schema: 'public'})
 export class UserEntity {
   @PrimaryGeneratedColumn({unsigned: true})
   id: number;

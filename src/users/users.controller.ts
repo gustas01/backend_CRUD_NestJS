@@ -25,12 +25,14 @@ import { UsersService } from './users.service';
 
 @UseInterceptors(LogInterceptor)
 @Roles(Role.Admin)
-@UseGuards(AuthGuard, RoleGuard)
+// @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   // @Roles(Role.Admin, Role.User)
+  @UseGuards(AuthGuard, RoleGuard)
+  @Roles(Role.User)
   @SkipThrottle() //ignorando o Throttle para essa rota, ou seja, posso acesar quantas vezes quiser
   @Get()
   async index() {
@@ -44,11 +46,13 @@ export class UsersController {
   }
 
   //usando decorator personalizado ParamId
+  @UseGuards(AuthGuard, RoleGuard)
   @Get(':id')
   async read(@ParamId() id: number) {
     return this.userService.read(id);
   }
 
+  @UseGuards(AuthGuard, RoleGuard)
   @Put(':id')
   async update(
     @Body() body: UpdatePutUserDto,
@@ -57,6 +61,7 @@ export class UsersController {
     return this.userService.updatePut(id, body);
   }
 
+  @UseGuards(AuthGuard, RoleGuard)
   @Patch(':id')
   async updateWithPatch(
     @Body() body: UpdatePatchUserDto,
@@ -65,6 +70,7 @@ export class UsersController {
     return this.userService.updatePatch(id, body);
   }
 
+  @UseGuards(AuthGuard, RoleGuard)
   @Roles(Role.Admin)
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
