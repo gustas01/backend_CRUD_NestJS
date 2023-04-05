@@ -9,7 +9,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
-import { UserEntity } from './users/entity/user.entity';
 import { UsersModule } from './users/users.module';
 
 
@@ -50,8 +49,8 @@ import { UsersModule } from './users/users.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [UserEntity],
-      synchronize: process.env.ENV === "development",
+      autoLoadEntities: true,
+      // synchronize: process.env.ENV === "development",
     })
   ],
   controllers: [AppController],
