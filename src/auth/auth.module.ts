@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileModule } from 'src/file/file.module';
 import { UserEntity } from 'src/users/entity/user.entity';
-import { UsersModule } from 'src/users/users.module';
+import { UserModule } from 'src/users/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
     JwtModule.register({
       secret: String(process.env.JWT_SECRET)
     }),
-    forwardRef(() => UsersModule),
+    forwardRef(() => UserModule),
     FileModule,
     TypeOrmModule.forFeature([UserEntity])
   ],

@@ -18,7 +18,7 @@ import { join } from 'path';
 import { User } from 'src/decorators/user/user.decorator';
 import { FileService } from 'src/file/file.service';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/users/user.service';
 import { AuthService } from './auth.service';
 import { AuthForgetDTO } from './dto/auth-forget.dto';
 import { AuthLoginDTO } from './dto/auth-login.dto';
@@ -28,7 +28,7 @@ import { AuthResetDTO } from './dto/auth-reset.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private userService: UsersService,
+    private userService: UserService,
     private authService: AuthService,
     private fileService: FileService
   ) {}

@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcryptjs from 'bcryptjs';
 import { UserEntity } from 'src/users/entity/user.entity';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/users/user.service';
 import { Repository } from 'typeorm';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 
@@ -19,7 +19,7 @@ export class AuthService {
 
   constructor(
     private readonly jwtService: JwtService,
-    private userService: UsersService,
+    private userService: UserService,
     private mailerService: MailerService,
     
     @InjectRepository(UserEntity)

@@ -21,14 +21,14 @@ import { LogInterceptor } from 'src/interceptors/log/log.interceptor';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user-dto';
 import { UpdatePutUserDto } from './dto/update-put-user-dto';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
 @UseInterceptors(LogInterceptor)
 @Roles(Role.Admin)
 // @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
-export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   // @Roles(Role.Admin, Role.User)
   @UseGuards(AuthGuard, RoleGuard)

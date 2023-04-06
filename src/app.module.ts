@@ -9,13 +9,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './users/user.module';
 
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule,
+    UserModule,
     AuthModule,
     ThrottlerModule.forRoot({
       ttl: 60,

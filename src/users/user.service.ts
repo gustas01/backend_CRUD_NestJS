@@ -8,7 +8,7 @@ import { UpdatePutUserDto } from './dto/update-put-user-dto';
 import { UserEntity } from './entity/user.entity';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>
@@ -21,14 +21,13 @@ export class UsersService {
 
   
   async create(user: CreateUserDto) {
-    try {
+    try {      
       user.password = await bcryptjs.hash(
         user.password,
         await bcryptjs.genSalt()
       );
       const newUser = this.usersRepository.create(user)
-      this.usersRepository.save(newUser)
-      return newUser
+      return this.usersRepository.save(newUser)
     } catch (e) {
       return { message: 'Email já cadastrado' };
     }
@@ -70,7 +69,6 @@ export class UsersService {
       if(user.password)
         user.password = await bcryptjs.hash(user.password, await bcryptjs.genSalt());
         
-        console.log(id, user);
       await this.usersRepository.update(id, user);
       return this.read(id)
     } catch (e) {
@@ -81,7 +79,8 @@ export class UsersService {
   async delete(id: number) {
     try {
       await this.read(id);
-      return await this.usersRepository.delete(id);
+      await this.usersRepository.delete(id);
+      return { message: "Usuário excluído com sucesso!"} 
     } catch (e) {
       return { message: e.response };
     }
