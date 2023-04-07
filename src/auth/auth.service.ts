@@ -7,9 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcryptjs from 'bcryptjs';
-import { UserEntity } from 'src/users/entity/user.entity';
-import { UserService } from 'src/users/user.service';
 import { Repository } from 'typeorm';
+import { UserEntity } from '../users/entity/user.entity';
+import { UserService } from '../users/user.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 
 @Injectable()
@@ -108,6 +108,7 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterDto) {
+    delete data.role //apagar chave de um objeto
     const user: UserEntity = (await this.userService.create(data)) as UserEntity;
     return this.createToken(user);
   }

@@ -15,10 +15,10 @@ import {
 } from '@nestjs/common/decorators';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
-import { User } from 'src/decorators/user/user.decorator';
-import { FileService } from 'src/file/file.service';
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { UserService } from 'src/users/user.service';
+import { User } from '../decorators/user/user.decorator';
+import { FileService } from '../file/file.service';
+import { AuthGuard } from '../guards/auth/auth.guard';
+import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import { AuthForgetDTO } from './dto/auth-forget.dto';
 import { AuthLoginDTO } from './dto/auth-login.dto';
@@ -55,7 +55,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('me')
-  async me(@User('email') user) {
+  async me(@User() user) {
     return { user };
   }
 

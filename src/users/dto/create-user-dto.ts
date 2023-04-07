@@ -8,7 +8,7 @@ import {
   // eslint-disable-next-line prettier/prettier
   Min
 } from 'class-validator';
-import { Role } from 'src/enums/role.enum';
+import { Role } from '../../enums/role.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -17,7 +17,7 @@ export class CreateUserDto {
   @IsInt()
   @Min(0)
   @IsOptional()
-  age: number;
+  age?: number;
 
   @IsEmail()
   email: string;
@@ -33,5 +33,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(Role)
-  role: number;
+  role?: number;
 }

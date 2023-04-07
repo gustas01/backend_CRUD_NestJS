@@ -12,12 +12,12 @@ import {
   UseInterceptors
 } from '@nestjs/common/decorators';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
-import { ParamId } from 'src/decorators/param-id/param-id.decorator';
-import { Roles } from 'src/decorators/role/role.decorator';
-import { Role } from 'src/enums/role.enum';
-import { AuthGuard } from 'src/guards/auth/auth.guard';
-import { RoleGuard } from 'src/guards/role/role.guard';
-import { LogInterceptor } from 'src/interceptors/log/log.interceptor';
+import { ParamId } from '../decorators/param-id/param-id.decorator';
+import { Roles } from '../decorators/role/role.decorator';
+import { Role } from '../enums/role.enum';
+import { AuthGuard } from '../guards/auth/auth.guard';
+import { RoleGuard } from '../guards/role/role.guard';
+import { LogInterceptor } from '../interceptors/log/log.interceptor';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user-dto';
 import { UpdatePutUserDto } from './dto/update-put-user-dto';

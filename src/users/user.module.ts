@@ -6,8 +6,8 @@ import {
   RequestMethod
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
-import { IdCheckMiddleware } from 'src/middlewares/id-check/id-check.middleware';
+import { AuthModule } from '../auth/auth.module';
+import { IdCheckMiddleware } from '../middlewares/id-check/id-check.middleware';
 import { UserEntity } from './entity/user.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
