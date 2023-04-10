@@ -9,6 +9,6 @@ export const userServiceMock = {
     read: jest.fn().mockResolvedValue(userEntityList[0]),
     updatePut: jest.fn().mockResolvedValue(userEntityList[0]),
     updatePatch: jest.fn().mockResolvedValue(userEntityList[0]),
-    delete: jest.fn().mockResolvedValue(true),
+    delete: jest.fn().mockResolvedValue({ message: "Usuário excluído com sucesso!"}),
   }
 }
