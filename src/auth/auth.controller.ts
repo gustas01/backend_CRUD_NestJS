@@ -14,7 +14,6 @@ import {
   UseGuards
 } from '@nestjs/common/decorators';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { join } from 'path';
 import { User } from '../decorators/user/user.decorator';
 import { FileService } from '../file/file.service';
 import { AuthGuard } from '../guards/auth/auth.guard';
@@ -68,16 +67,9 @@ export class AuthController {
       new MaxFileSizeValidator({maxSize: 1024 * 56})
     ]
   })) photo: Express.Multer.File) {
-    const path = join(
-      __dirname,
-      '..',
-      '..',
-      'storage',
-      'photos',
-      `photo-${user.id}.png`
-    );
+   const filename =  `photo-${user.id}.png`
     try {
-      await this.fileService.upload(photo, path);
+      await this.fileService.upload(photo, filename);
     } catch (e) {
       throw new BadRequestException(e.message);
     }

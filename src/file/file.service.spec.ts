@@ -1,18 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getPhoto } from '../testing/get-photo.mock';
 import { FileService } from './file.service';
 
 describe('FileService', () => {
-  let service: FileService;
+  let fileService: FileService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [FileService],
     }).compile();
 
-    service = module.get<FileService>(FileService);
+    fileService = module.get<FileService>(FileService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(fileService).toBeDefined();
   });
+
+
+  it('upload method', async () => {
+    const photo = await getPhoto()
+    fileService.upload(photo, 'photo-test.jpg')
+  })
 });
