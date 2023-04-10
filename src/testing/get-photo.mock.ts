@@ -16,5 +16,5 @@ export const getPhoto = async function(){
     buffer,
   }
 
-  return photo
+  return [photo]
 }

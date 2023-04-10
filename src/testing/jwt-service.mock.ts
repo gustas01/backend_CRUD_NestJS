@@ -1,11 +1,11 @@
 import { JwtService } from "@nestjs/jwt";
 import { jwtPayloadMock } from "./jwt-payload.mock";
-import { token } from "./token.mock";
+import { tokenMock } from "./token.mock";
 
 export const jwtServiceMock = {
   provide: JwtService,
   useValue: {
-   sign: jest.fn().mockReturnValue(token),
+   sign: jest.fn().mockReturnValue(tokenMock),
    verify: jest.fn().mockReturnValue(jwtPayloadMock),
   }
 }

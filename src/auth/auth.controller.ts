@@ -17,7 +17,7 @@ import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestj
 import { User } from '../decorators/user/user.decorator';
 import { FileService } from '../file/file.service';
 import { AuthGuard } from '../guards/auth/auth.guard';
-import { UserService } from '../users/user.service';
+import { UserEntity } from '../users/entity/user.entity';
 import { AuthService } from './auth.service';
 import { AuthForgetDTO } from './dto/auth-forget.dto';
 import { AuthLoginDTO } from './dto/auth-login.dto';
@@ -27,7 +27,6 @@ import { AuthResetDTO } from './dto/auth-reset.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private userService: UserService,
     private authService: AuthService,
     private fileService: FileService
   ) {}
@@ -54,14 +53,14 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('me')
-  async me(@User() user) {
-    return { user };
+  async me(@User() user: UserEntity) {
+    return user;
   }
 
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
   @Post('photo')
-  async uploadPhoto(@User() user, @UploadedFile(new ParseFilePipe({
+  async uploadPhoto(@User() user: UserEntity, @UploadedFile(new ParseFilePipe({
     validators: [
       new FileTypeValidator({fileType: 'image/png'}),
       new MaxFileSizeValidator({maxSize: 1024 * 56})
@@ -74,14 +73,14 @@ export class AuthController {
       throw new BadRequestException(e.message);
     }
 
-    return { success: true };
+    return {success: true };
   }
 
   @UseInterceptors(FilesInterceptor('files'))
   @UseGuards(AuthGuard)
   @Post('files')
   async uploadFiles(
-    @User() user, @UploadedFiles() files: Express.Multer.File[]) {
+    @User() user: UserEntity, @UploadedFiles() files: Express.Multer.File[]) {
       return files
     }
 
@@ -90,7 +89,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('files-fields')
   async uploadFilesFields(
-    @User() user, @UploadedFiles() files: {photo: Express.Multer.File, documents: Express.Multer.File[]}) {
-      return { files }
+    @User() user: UserEntity, @UploadedFiles() files: {photo: Express.Multer.File, documents: Express.Multer.File[]}) {
+      return {files}
     }
 }
