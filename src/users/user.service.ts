@@ -22,6 +22,7 @@ export class UserService {
   
   async create(user: CreateUserDto) {
     try {      
+      delete user.role
       user.password = await bcryptjs.hash(
         user.password,
         await bcryptjs.genSalt()
