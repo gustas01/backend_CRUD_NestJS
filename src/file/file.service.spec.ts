@@ -20,6 +20,6 @@ describe('FileService', () => {
 
   it('upload method', async () => {
     const photo = await getPhoto()
-    fileService.upload(photo, 'photo-test.jpg')
+    fileService.upload(photo[0], 'photo-test.jpg')
   })
 });
