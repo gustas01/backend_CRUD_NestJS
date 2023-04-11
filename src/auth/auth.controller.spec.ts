@@ -8,7 +8,7 @@ import { authServiceMock } from "../testing/auth-service.mock"
 import { fileServiceMock } from "../testing/file-service.mock"
 import { getPhoto } from "../testing/get-photo.mock"
 import { guardMock } from "../testing/guard.mock"
-import { tokenMock } from "../testing/token.mock"
+import { token } from "../testing/token.mock"
 import { userEntityList } from "../testing/user-entity-list.mock"
 import { AuthController } from "./auth.controller"
 
@@ -31,12 +31,12 @@ describe('AuthController', () => {
   describe('Authentication methods', () => {
     it('Login', async () => {
       const result = await authController.login(authLoginDTOMock)
-      expect(result).toEqual({ tokenMock })
+      expect(result).toEqual({ token })
     });
 
     it('Register', async () => {
       const result = await authController.register(authRegisterDTOMock)
-      expect(result).toEqual({ tokenMock })
+      expect(result).toEqual({ token })
     });
 
     it('Forget', async () => {
@@ -46,7 +46,7 @@ describe('AuthController', () => {
     
     it('Reset', async () => {
       const result = await authController.reset(authResetDTOMock)
-      expect(result).toEqual({ tokenMock })
+      expect(result).toEqual({ token })
     });
   });
 

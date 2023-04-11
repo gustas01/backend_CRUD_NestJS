@@ -3,7 +3,7 @@ import { authRegisterDTOMock } from "../testing/auth-register-dto.mock"
 import { jwtPayloadMock } from "../testing/jwt-payload.mock"
 import { jwtServiceMock } from "../testing/jwt-service.mock"
 import { mailerServiceMock } from "../testing/mailer-service.mock"
-import { tokenMock } from "../testing/token.mock"
+import { token } from "../testing/token.mock"
 import { userEntityList } from "../testing/user-entity-list.mock"
 import { userRepositoryMock } from "../testing/user-repository.mock"
 import { userServiceMock } from "../testing/user-service.mock"
@@ -28,16 +28,16 @@ describe('AuthService', () => {
   describe('Token methods', () => {
     it('createToken', () => {
       const result = authService.createToken(userEntityList[0]);
-      expect(result).toEqual({tokenMock})
+      expect(result).toEqual({token})
     });
 
     it('checkToken', () => {
-      const result = authService.checkToken(tokenMock);
+      const result = authService.checkToken(token);
       expect(result).toEqual(jwtPayloadMock)
     });
 
     it('isTokenValid', () => {
-      const result = authService.isTokenValid(tokenMock);
+      const result = authService.isTokenValid(token);
       expect(result).toEqual(true)
     });
 
@@ -48,7 +48,7 @@ describe('AuthService', () => {
   describe('Authentication methods', () => {
     it('login', async () => {
       const result = await authService.login('gustavo@email.com', '123123AaBb')
-      expect(result).toEqual({tokenMock})
+      expect(result).toEqual({token})
     });
 
 
@@ -58,13 +58,13 @@ describe('AuthService', () => {
     });
 
     it('reset', async () => {
-      const result = await authService.reset('111111Zz', tokenMock)
-      expect(result).toEqual({tokenMock})
+      const result = await authService.reset('111111Zz', token)
+      expect(result).toEqual({token})
     });
 
     it('register', async () => {
       const result = await authService.register(authRegisterDTOMock)
-      expect(result).toEqual({tokenMock})
+      expect(result).toEqual({token})
     });
   });
 });
