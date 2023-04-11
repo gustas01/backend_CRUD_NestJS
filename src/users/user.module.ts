@@ -13,7 +13,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [forwardRef(() => AuthModule), TypeOrmModule.forFeature([UserEntity])],
+  imports: [
+    forwardRef(() => AuthModule),
+    TypeOrmModule.forFeature([UserEntity])
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService]

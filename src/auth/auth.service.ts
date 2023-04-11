@@ -21,7 +21,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private userService: UserService,
     private mailerService: MailerService,
-    
+
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>
   ) {}
@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    const user = await this.usersRepository.findOne({where: {email}})
+    const user = await this.usersRepository.findOne({ where: { email } });
 
     if (!user) throw new UnauthorizedException('Email ou senha inválidos');
 
@@ -66,26 +66,29 @@ export class AuthService {
   }
 
   async forget(email: string) {
-    const user = await this.usersRepository.findOneBy( { email } );
+    const user = await this.usersRepository.findOneBy({ email });
     if (!user) throw new UnauthorizedException('Email inválido');
 
-    const token = this.jwtService.sign({
-      id: user.id
-    }, {
-      expiresIn: '30 minutes',
-      subject: String(user.id),
-      issuer: 'forget',
-      audience: 'users'
-    })
+    const token = this.jwtService.sign(
+      {
+        id: user.id
+      },
+      {
+        expiresIn: '30 minutes',
+        subject: String(user.id),
+        issuer: 'forget',
+        audience: 'users'
+      }
+    );
 
     await this.mailerService.sendMail({
-      subject: "Recuperação de senha",
+      subject: 'Recuperação de senha',
       to: 'gustavoG@email.com',
       template: 'forget',
-      context: {name: user.name, token}
-    })
+      context: { name: user.name, token }
+    });
 
-    return {success: true};
+    return { success: true };
   }
 
   async reset(newPassword: string, token: string) {
@@ -96,11 +99,11 @@ export class AuthService {
       });
 
       newPassword = await bcryptjs.hash(newPassword, await bcryptjs.genSalt());
-  
-      await this.usersRepository.update(Number(id), {password: newPassword});
-  
-      const user = await this.userService.read(Number(id)) as UserEntity;
-      
+
+      await this.usersRepository.update(Number(id), { password: newPassword });
+
+      const user = (await this.userService.read(Number(id))) as UserEntity;
+
       return this.createToken(user);
     } catch (e) {
       throw new BadRequestException(e);
@@ -108,8 +111,10 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterDto) {
-    delete data.role //apagar chave de um objeto
-    const user: UserEntity = (await this.userService.create(data)) as UserEntity;
+    delete data.role; //apagar chave de um objeto
+    const user: UserEntity = (await this.userService.create(
+      data
+    )) as UserEntity;
     return this.createToken(user);
   }
 

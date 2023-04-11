@@ -1,9 +1,9 @@
-import { FileService } from "../file/file.service";
+import { FileService } from '../file/file.service';
 
 export const fileServiceMock = {
   provide: FileService,
   useValue: {
     upload: jest.fn(),
-    getDestinationPath: jest.fn().mockResolvedValue(''),
+    getDestinationPath: jest.fn().mockResolvedValue('')
   }
-}
+};

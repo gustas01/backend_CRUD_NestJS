@@ -7,7 +7,7 @@ describe('FileService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FileService],
+      providers: [FileService]
     }).compile();
 
     fileService = module.get<FileService>(FileService);
@@ -17,9 +17,8 @@ describe('FileService', () => {
     expect(fileService).toBeDefined();
   });
 
-
   it('upload method', async () => {
-    const photo = await getPhoto()
-    fileService.upload(photo[0], 'photo-test.jpg')
-  })
+    const photo = await getPhoto();
+    fileService.upload(photo[0], 'photo-test.jpg');
+  });
 });

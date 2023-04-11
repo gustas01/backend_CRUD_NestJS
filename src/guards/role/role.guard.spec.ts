@@ -3,18 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {
-  let roleGuard: RoleGuard
+  let roleGuard: RoleGuard;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [RoleGuard, Reflector]
-    }).compile()
+    }).compile();
 
-    roleGuard = module.get<RoleGuard>(RoleGuard)
-  })
-
-
-
-
+    roleGuard = module.get<RoleGuard>(RoleGuard);
+  });
 
   it('should be defined', () => {
     expect(roleGuard).toBeDefined();

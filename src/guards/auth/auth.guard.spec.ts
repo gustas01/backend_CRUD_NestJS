@@ -4,15 +4,15 @@ import { userServiceMock } from '../../testing/user-service.mock';
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {
-  let authGuard: AuthGuard
+  let authGuard: AuthGuard;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AuthGuard, authServiceMock, userServiceMock]
-    }).compile()
+    }).compile();
 
-    authGuard = module.get<AuthGuard>(AuthGuard)
-  })
+    authGuard = module.get<AuthGuard>(AuthGuard);
+  });
   it('should be defined', () => {
     expect(authGuard).toBeDefined();
   });

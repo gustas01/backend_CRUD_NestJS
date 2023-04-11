@@ -13,7 +13,11 @@ import {
   UploadedFiles,
   UseGuards
 } from '@nestjs/common/decorators';
-import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+  FilesInterceptor
+} from '@nestjs/platform-express';
 import { User } from '../decorators/user/user.decorator';
 import { FileService } from '../file/file.service';
 import { AuthGuard } from '../guards/auth/auth.guard';
@@ -60,36 +64,51 @@ export class AuthController {
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
   @Post('photo')
-  async uploadPhoto(@User() user: UserEntity, @UploadedFile(new ParseFilePipe({
-    validators: [
-      new FileTypeValidator({fileType: 'image/png'}),
-      new MaxFileSizeValidator({maxSize: 1024 * 56})
-    ]
-  })) photo: Express.Multer.File) {
-   const filename =  `photo-${user.id}.png`
+  async uploadPhoto(
+    @User() user: UserEntity,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: 'image/png' }),
+          new MaxFileSizeValidator({ maxSize: 1024 * 56 })
+        ]
+      })
+    )
+    photo: Express.Multer.File
+  ) {
+    const filename = `photo-${user.id}.png`;
     try {
       await this.fileService.upload(photo, filename);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
 
-    return {success: true };
+    return { success: true };
   }
 
   @UseInterceptors(FilesInterceptor('files'))
   @UseGuards(AuthGuard)
   @Post('files')
   async uploadFiles(
-    @User() user: UserEntity, @UploadedFiles() files: Express.Multer.File[]) {
-      return files
-    }
+    @User() user: UserEntity,
+    @UploadedFiles() files: Express.Multer.File[]
+  ) {
+    return files;
+  }
 
-
-  @UseInterceptors(FileFieldsInterceptor([{name: 'photo', maxCount: 1}, {name: 'documents', maxCount: 10 }]))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'photo', maxCount: 1 },
+      { name: 'documents', maxCount: 10 }
+    ])
+  )
   @UseGuards(AuthGuard)
   @Post('files-fields')
   async uploadFilesFields(
-    @User() user: UserEntity, @UploadedFiles() files: {photo: Express.Multer.File, documents: Express.Multer.File[]}) {
-      return {files}
-    }
+    @User() user: UserEntity,
+    @UploadedFiles()
+    files: { photo: Express.Multer.File; documents: Express.Multer.File[] }
+  ) {
+    return { files };
+  }
 }

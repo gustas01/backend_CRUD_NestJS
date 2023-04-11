@@ -11,10 +11,11 @@ import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
 import { UserModule } from './users/user.module';
 
-
 @Module({
   imports: [
-    ConfigModule.forRoot({envFilePath: process.env.ENV === 'test' ? '.env.test' : '.env'}),
+    ConfigModule.forRoot({
+      envFilePath: process.env.ENV === 'test' ? '.env.test' : '.env'
+    }),
     UserModule,
     AuthModule,
     ThrottlerModule.forRoot({
@@ -32,15 +33,15 @@ import { UserModule } from './users/user.module';
         }
       },
       defaults: {
-        from: '"clara belle" clarabelle71@ethereal.email',
+        from: '"clara belle" clarabelle71@ethereal.email'
       },
       template: {
         dir: __dirname + '/templates',
         adapter: new PugAdapter(),
         options: {
-          strict: true,
-        },
-      },
+          strict: true
+        }
+      }
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -49,7 +50,7 @@ import { UserModule } from './users/user.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      autoLoadEntities: true,
+      autoLoadEntities: true
       // synchronize: process.env.ENV === "development",
     })
   ],

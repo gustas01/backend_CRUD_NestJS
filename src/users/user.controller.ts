@@ -38,7 +38,7 @@ export class UserController {
   async index() {
     return this.userService.index();
   }
-  
+
   @Throttle(5, 60) //substituindo as confiruações de acesso/por que está no appModule para essa rota
   @Post()
   async create(@Body() body: CreateUserDto) {

@@ -12,28 +12,25 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>
-    ) 
-  {}
+  ) {}
 
   async index() {
     return await this.usersRepository.find();
   }
 
-  
   async create(user: CreateUserDto) {
-    try {      
-      delete user.role
+    try {
+      delete user.role;
       user.password = await bcryptjs.hash(
         user.password,
         await bcryptjs.genSalt()
       );
-      const newUser = this.usersRepository.create(user)
-      return this.usersRepository.save(newUser)
+      const newUser = this.usersRepository.create(user);
+      return this.usersRepository.save(newUser);
     } catch (e) {
       return { message: 'Email já cadastrado' };
     }
   }
-
 
   async read(id: number) {
     try {
@@ -57,7 +54,7 @@ export class UserService {
       );
 
       await this.usersRepository.update(id, user);
-      return this.read(id)
+      return this.read(id);
     } catch (e) {
       return { message: e.response };
     }
@@ -66,12 +63,15 @@ export class UserService {
   async updatePatch(id: number, user: UpdatePatchUserDto) {
     try {
       await this.read(id);
-      
-      if(user.password)
-        user.password = await bcryptjs.hash(user.password, await bcryptjs.genSalt());
-        
+
+      if (user.password)
+        user.password = await bcryptjs.hash(
+          user.password,
+          await bcryptjs.genSalt()
+        );
+
       await this.usersRepository.update(id, user);
-      return this.read(id)
+      return this.read(id);
     } catch (e) {
       return { message: e.response };
     }
@@ -81,7 +81,7 @@ export class UserService {
     try {
       await this.read(id);
       await this.usersRepository.delete(id);
-      return { message: "Usuário excluído com sucesso!"} 
+      return { message: 'Usuário excluído com sucesso!' };
     } catch (e) {
       return { message: e.response };
     }

@@ -8,12 +8,12 @@ import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let token: string
-  let userId: number
+  let token: string;
+  let userId: number;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule]
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -21,8 +21,8 @@ describe('AppController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await app.close()
-  })
+    await app.close();
+  });
 
   it('/ (GET)', () => {
     return request(app.getHttpServer())
@@ -31,80 +31,86 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 
-  it('Creating a user', async() => {
+  it('Creating a user', async () => {
     const response = await request(app.getHttpServer())
       .post('/auth/register')
-      .send(authRegisterDTOMock)
-      
-      expect(response.statusCode).toEqual(201)
-      expect(typeof response.body.token).toBe('string')
+      .send(authRegisterDTOMock);
+
+    expect(response.statusCode).toEqual(201);
+    expect(typeof response.body.token).toBe('string');
   });
 
-  it('login with the new user', async() => {
+  it('login with the new user', async () => {
     const response = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
         email: authRegisterDTOMock.email,
-        password: authRegisterDTOMock.password,
-      })
-      
-      expect(response.statusCode).toEqual(201)
-      expect(typeof response.body.token).toBe('string')
+        password: authRegisterDTOMock.password
+      });
 
-      token = response.body.token
+    expect(response.statusCode).toEqual(201);
+    expect(typeof response.body.token).toBe('string');
+
+    token = response.body.token;
   });
 
-  it('getting the user data', async() => {
+  it('getting the user data', async () => {
     const response = await request(app.getHttpServer())
       .post('/auth/me')
       .set('Authorization', `Bearer ${token}`)
-      .send()
-      
-      expect(response.statusCode).toEqual(201)
-      expect(typeof response.body.id).toBe('number')
-      expect(response.body.role).toBe(Role.User)
+      .send();
+
+    expect(response.statusCode).toEqual(201);
+    expect(typeof response.body.id).toBe('number');
+    expect(response.body.role).toBe(Role.User);
   });
 
-  it('Trying to register a Admin and failing', async() => {
+  it('Trying to register a Admin and failing', async () => {
     const response = await request(app.getHttpServer())
       .post('/auth/register')
       .set('Authorization', `Bearer ${token}`)
-      .send({...authRegisterDTOMock, role: Role.Admin, email: 'email@email.com'})
+      .send({
+        ...authRegisterDTOMock,
+        role: Role.Admin,
+        email: 'email@email.com'
+      });
 
-      token = response.body.token
+    token = response.body.token;
 
-      const userData = await request(app.getHttpServer())
+    const userData = await request(app.getHttpServer())
       .post('/auth/me')
       .set('Authorization', `Bearer ${token}`)
-      .send()
+      .send();
 
-      userId = userData.body.id
-      
-      expect(userData.statusCode).toEqual(201)
-      expect(userData.body.role).toBe(Role.User)
+    userId = userData.body.id;
+
+    expect(userData.statusCode).toEqual(201);
+    expect(userData.body.role).toBe(Role.User);
   });
 
-
-  it('Listing all users (index)', async() => {
+  it('Listing all users (index)', async () => {
     const response = await request(app.getHttpServer())
       .get('/users')
       .set('Authorization', `Bearer ${token}`)
-      .send()
-      
-      expect(response.statusCode).toEqual(200)
+      .send();
+
+    expect(response.statusCode).toEqual(200);
   });
 
-
-  it('Changing the role of user to Admin', async() => {
+  it('Changing the role of user to Admin', async () => {
     const ds = await dataSource.initialize();
     const queryRunner = ds.createQueryRunner();
 
-    await queryRunner.query(`UPDATE users SET role = ${Role.Admin} WHERE id = ${userId}`)
-    const rows = await queryRunner.query(`SELECT * FROM users WHERE id = ${userId};`)
+    await queryRunner.query(
+      `UPDATE users SET role = ${Role.Admin} WHERE id = ${userId}`
+    );
+    const rows = await queryRunner.query(
+      `SELECT * FROM users WHERE id = ${userId};`
+    );
 
-    dataSource.destroy()
+    dataSource.destroy();
 
-    expect(rows.length).toEqual(1)
-    expect(rows[0].role).toEqual(Role.Admin)
+    expect(rows.length).toEqual(1);
+    expect(rows[0].role).toEqual(Role.Admin);
   });
 });
