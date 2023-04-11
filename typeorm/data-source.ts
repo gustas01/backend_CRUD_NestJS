@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import { DataSource } from "typeorm";
 import { users1680712218698 } from './migrations/1680712218698-users';
 
-dotenv.config()
+dotenv.config({path: process.env.ENV === 'test' ? '.env.test' : '.env'})
 
 const dataSource = new DataSource({
   type: 'postgres',

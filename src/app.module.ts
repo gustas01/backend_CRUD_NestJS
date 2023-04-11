@@ -14,7 +14,7 @@ import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({envFilePath: process.env.ENV === 'test' ? '.env.test' : '.env'}),
     UserModule,
     AuthModule,
     ThrottlerModule.forRoot({
