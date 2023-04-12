@@ -42,6 +42,7 @@ jobs:
     - run: npm i
     - run: npm run build
     - run: npm run test > tests_results.txt
+    - run: ls
   
   upload_artifact:
     needs: testes_unitarios
