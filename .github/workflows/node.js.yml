@@ -34,10 +34,6 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/upload-artifact@v3
-      with:
-        name: homework
-        path: tests_results.txt
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -47,6 +43,10 @@ jobs:
     - run: npm run build
     - run: npm run test > tests_results.txt
     - run: ls
+    - uses: actions/upload-artifact@v3
+      with:
+        name: homework
+        path: tests_results.txt
   
   upload_artifact:
     needs: testes_unitarios
