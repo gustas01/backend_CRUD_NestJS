@@ -41,4 +41,10 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run build
-    - run: npm run test
+    - run: npm run test >> tests_results.txt
+  
+  upload_artifact:
+    needs: testes_unitarios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact@v3
