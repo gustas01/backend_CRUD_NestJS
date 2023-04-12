@@ -34,9 +34,6 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v3
-      with:
-        name: homework
-        path: tests_results.txt
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -51,6 +48,7 @@ jobs:
     needs: testes_unitarios
     runs-on: ubuntu-latest
     steps:
+      - run: ls
       - uses: actions/upload-artifact@v3
         with:
           name: homework
