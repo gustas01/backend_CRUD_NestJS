@@ -16,6 +16,7 @@ O projeto se trata de um CRUD simples de usuários com autenticação usando o N
 ENV="development"
 
 JWT_SECRET=
+APP_PORT=
 
 DB_USERNAME=
 DB_PASSWORD=
@@ -47,4 +48,34 @@ $ npm run test:e2e
 
 # Cobertura de testes
 $ npm run test:cov
+```
+
+## Endpoints
+### Rodas do usuário
+```bash
+# GET: Lista todos os usuários cadastrados - Necessário estar autenticado pelo menos como User
+/users
+
+# POST: Cria um usuário novo
+/users
+
+# GET: Lista um usuário específico de acordo com o id - Necessário estar autenticado como Admin
+/users/:id
+
+# PUT: Atualiza todos os campos de um usuário - Necessário estar autenticado como Admin
+/users/:id
+
+# PATCH: Atualiza os campos informados de um usuário - Necessário estar autenticado como Admin
+/users/:id
+
+# DELETE: Deleta um usuário - Necessário estar autenticado como Admin
+/users/:id
+
+### Rotas de autenticação
+```bash
+
+# POST: Fazer login (receber token de autenticação)
+/auth/login
+# 
+```
 ```
