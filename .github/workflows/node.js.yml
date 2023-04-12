@@ -41,9 +41,9 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run build
-    - run: npm run test:cov > tests_results.txt
+    - run: npm run test:cov > tests_results.xml
     - run: ls
     - uses: actions/upload-artifact@v3
       with:
         name: tests_results
-        path: tests_results.txt
+        path: coverage.xml
