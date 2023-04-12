@@ -45,15 +45,5 @@ jobs:
     - run: ls
     - uses: actions/upload-artifact@v3
       with:
-        name: homework
+        name: tests_results
         path: tests_results.txt
-  
-  upload_artifact:
-    needs: testes_unitarios
-    runs-on: ubuntu-latest
-    steps:
-      - run: ls
-      - uses: actions/upload-artifact@v3
-        with:
-          name: homework
-          path: tests_results.txt
