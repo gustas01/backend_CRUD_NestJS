@@ -70,12 +70,11 @@ $ npm run test:cov
 
 # DELETE: Deleta um usuário - Necessário estar autenticado como Admin
 /users/:id
+```
 
 ### Rotas de autenticação
 ```bash
 
 # POST: Fazer login (receber token de autenticação)
 /auth/login
-# 
-```
 ```
